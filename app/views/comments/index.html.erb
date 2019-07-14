@@ -3,11 +3,34 @@
 <% if user_signed_in? %>
   <h2> 現在 <%= current_user.name %> さんがログインしています </h2>
   <h4> メールアドレス： <%= current_user.email %> </h4>
-  <% @users.each do |user| %>
-    <p>
-      <%= user.name %> : <%= user.email %>
-    </p>
+  <%= form_tag('/comments/index', method: :get) do %>
+    <%= label_tag :名前 %>
+    <%= text_field_tag :search_name %>
+    <%= label_tag :メールアドレス %>
+    <%= text_field_tag :search_email %>
+    <%= submit_tag '検索' %>
   <% end %>
+  <table>
+    <tbody>
+      <thead>
+        <tr>
+          <th>名前</th>
+          <th>メールアドレス</th>
+        </tr>
+      </thead>
+      <% @users.each do |user| %>
+        <tr>
+          <td>
+            <%= user.name %>
+          </td>
+          <td>
+            <%= user.email %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
   <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
 <% else %>
   <h2> 現在ログインしていません </h2>
